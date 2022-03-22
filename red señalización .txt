@@ -1,0 +1,21 @@
+targets ,factors  
+A , B | S  &! L 
+B , C | J | D 
+C, F 
+D , E 
+E , G 
+F , G 
+G , H 
+H , A 
+I , A 
+J , I 
+K , R | A | M &! Q &! O 
+L , A 
+M , A 
+N , N | P | M 
+O , K 
+P , K 
+Q , A 
+R , A 
+S , ! K
+

@@ -1,0 +1,48 @@
+---
+title: "Robles_Sara_T3_P3"
+author: "Sara del Socorro Robles Ortiz"
+date: "21/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Red de señalización
+A partir de la red de se˜nalización mostrada en la figura 1
+
+*(a) Elabora una representación verbal de la red*
+
+Ca+2 río abajo activará a AnionEM que activa a Depolar. Anion Em activa sobre Closure 
+que es activado por KOUT y KAP. KOUT inhibe a Depolar y KAP  se activa por él. 
+Ca+2 río abajo inhibe a HATPase que inhibe a Depolar y activa a Kev que activa a Depolar. 
+Ca+2 es activado por CALM que es inhibido por Depolar. Ca+2 ATPase inhibe a Ca+2 y es activado por Ca+2. 
+Ca+2 río arriba activa a NOS que activará a NO y este actúa sobre GC y ADPRc. GC activa a cGMP que activa a CIS. ADPRC activa a a cADPR que también activará a CIS. 
+Cis activa a Ca+2 río abajo y Ca+2 activa a PLC que activará a Insp3. 
+
+*(b) Elabora una tabla de posibles reglas de la red*
+
+**Ver archivo txt**
+
+(c) Encuentra y discute **biológicamente** el significado de los atractores (Usa BoolNet)
+
+
+
+```{r }
+library(BoolNet)
+red_bool<- loadNetwork("red señalización .txt")
+red_bool
+plotNetworkWiring(red_bool)
+atractores<-getAttractors(red_bool)
+atractores
+plotAttractors(atractores)# EL 97.81 SE IRÁ AL ATRACTOR 1 
+# EL 2.19% AL ATRACTOR 2 
+# EL PRIMERO ES UN ATRACTOR 1111111111111111110  Y EL SEGUNDO 1011001001100111000 | 0100110110111111110
+plotStateGraph(atractores)
+```
+
+(c) Encuentra y discute **biológicamente** el significado de los atractores (Usa BoolNet)
+
+Biológicamente quiere decir que en la mayoría de las veces van a estar activos todos los componentes (o casi todos)  ya que el calcio generalmente se encuentra en el citosol de una forma u otra y tiene muchas maneras en las que puede expresarse. 
+Sin embargo tambipen hay varios feedback que promoverán la regulación de la red de forma que solo sea la cantidad necesaria de calcio para poder actuar. 

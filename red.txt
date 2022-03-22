@@ -1,0 +1,7 @@
+targets ,factors 
+A , ! C 
+B , A 
+C , ! B |D 
+D , B | E 
+E , F 
+F , A 

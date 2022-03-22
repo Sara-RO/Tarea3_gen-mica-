@@ -1,0 +1,110 @@
+---
+title: "Robles_Sara_T3_P2"
+author: "Sara del Socorro Robles Ortiz"
+date: "21/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Red Booleana 
+
+*Genera una red de regulación transripcional con 5 nodos y, al menos, 7 interacciones regulatorias,escoge al menos 3 inhibiciones)*
+
+*• Escribe las tablas de verdad de las reglas*
+
+*• Escribe las reglas para generar una red de tipo Boolnet.*
+
+*• Encuentra todos los atractores de tu red*
+
+*• ¿Cu´al ser´ıa el estado final más probable?*
+
+*• Dibuja todos los estados y sus atractores*
+
+```{r }
+library(igraph)
+library(BoolNet)
+g<- make_empty_graph(n=6, directed=TRUE)
+V(g)$color = "aquamarine"
+V(g)$shape = "sphere"
+plot(g)
+g<-add.edges( g, c(1,2, 1,6, 2,3, 2,4, 3,1, 5,4,4,3,6,5))
+plot(g)
+#SE HIZOSE HIZO LA RED DE REGULACIÓN TRANSCRIPCIONAL, 
+#INHIBICIONES 2--->3 , 3-->1, 4-->3 
+                    
+```
+## TABLAS DE VERDAD
+
+**A NOT C**
+
+T | F 
+
+F | T 
+
+**B, A**     
+ 
+T | F         
+ 
+F | T        
+
+**C (B, D ) | NOT B OR D**
+
+F | T | T | F 
+
+T | F | F | T 
+
+F | F | T | F 
+
+F | F | F | F 
+
+**D( B, E) | B OR E** 
+
+T | T | F | T 
+
+F | T | F | F 
+
+T | F | T | F 
+
+F | F | F | F 
+
+**F,  A**
+
+T | T 
+
+F| F 
+
+**E , F** 
+
+T | T 
+
+F | F 
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r }
+r<-loadNetwork("REDES/red.txt")
+r
+plotNetworkWiring(r)
+atractores<-getAttractors(r)
+atractores
+plotAttractors(atractores)
+plotStateGraph(atractores)
+```
+
+Muestra la gráfica de estados a los que se riá 
+
+Existen dos atractores probables 
+
+El atractor 1 es (A,B,C,D,E,F)--> donde (0,0,1,0,0,0) se van cerca del 78.12% 
+
+El segundo atractor consiste en dos estados, y se van solo 21.88% 
+
+Con lo anterior se puede definir que el estado más probable y al que eventualmente la mayoría se irá es el atractor 1. 

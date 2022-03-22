@@ -1,0 +1,82 @@
+---
+title: "Robles_Sara_T3_P1"
+author: "Sara del Socorro Robles Ortiz"
+date: "21/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instrucciones primer ejercicio 
+
+WGCNA
+(a) Instala la biblioteca WGCNA
+(b) Sigue el tutorial , es decir, en un Rmarkdown ve corriendo lo que marca el tutoral, 1.
+Networks analysis of liver expression data . . . para construir una red de co expresi´on,
+a partir de los datos del tutorial responde las siguientes preguntas:
+i. En d´onde est´a el objeto matriz de expresi´on y de qu´e dimensi´on es?
+ii. ¿Por qu´e se eliminan datos que son demasiado distintos ? (Vean la gr´afica Sample
+clustering to detect outliers)
+iii. ¿Qu´e criterio utilizan para generar la red, es decir explica el significado de la
+variable softpower
+iv. ¿Por qu´e crees que genes que pertenecen al mismo cl´uster sin relevantes.
+v. Discute algunos de los resultados que te parezcan interesantes de los cl´usters y su
+relaci´on con los meta- datos ( datos de loas hembras ratones).
+
+```{r }
+library(WGCNA)                 
+                 # Display the current working directory
+                 getwd();
+                 # If necessary, change the path below to the directory where the data files are stored. 
+                 # "." means current directory. On Windows use a forward slash / instead of the usual \.
+                 workingDir = ".";
+                 setwd(workingDir); 
+                 # Load the WGCNA package
+                 library(WGCNA);
+                 # The following setting is important, do not omit.
+                 options(stringsAsFactors = FALSE);
+                 #Read in the female liver data set
+                 femData<-read.csv("LiverFemale3600.csv");
+                 # Take a quick look at what is in the data set:
+                 dim(femData);
+                 names(femData);
+                 datExpr0<- as.data.frame(t(femData[, -c(1:8)]));
+                 names(datExpr0) = femData$substanceBXH;
+                 rownames(datExpr0) = names(femData)[-c(1:8)];                 
+                 gsg = goodSamplesGenes(datExpr0, verbose = 3);
+                 gsg$allOK
+ if (!gsg$allOK)
+                 {
+                   # Optionally, print the gene and sample names that were removed:
+                   if (sum(!gsg$goodGenes)>0) 
+                     printFlush(paste("Removing genes:", paste(names(datExpr0)[!gsg$goodGenes], collapse = ", ")));
+                   if (sum(!gsg$goodSamples)>0) 
+                     printFlush(paste("Removing samples:", paste(rownames(datExpr0)[!gsg$goodSamples], collapse = ", ")));
+                   # Remove the offending genes and samples from the data:
+                   datExpr0 = datExpr0[gsg$goodSamples, gsg$goodGenes]
+                 }
+```
+
+## INCLUIR LOS GRÁFICOS 
+
+
+
+```{r}
+sampleTree<- hclust(dist(datExpr0), method = "average");
+                 # Plot the sample tree: Open a graphic output window of size 12 by 9 inches
+                 # The user should change the dimensions if the window is too large or too small.
+                 sizeGrWindow(12,9)
+                 #pdf(file = "Plots/sampleClustering.pdf", width = 12, height = 9);
+                 par(cex = 0.6);
+                 par(mar = c(0,4,2,0))
+                 plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="", cex.lab = 1.5, 
+                      cex.axis = 1.5, cex.main = 2)  #DE ESTA FORMA SE DETECTAN LOS OUTLIERS 
+                 ##SE OBSERVA QUE F2_221 SE PRESENTA COMO OUTLIER 
+                 # Plot a line to show the cut
+                 abline(h = 15, col = "red")
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
